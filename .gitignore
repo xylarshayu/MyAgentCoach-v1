@@ -1,0 +1,19 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.env
+
+# Local-only vault state. The encrypted bundle is committed separately.
+.vault/restored.json
+.vault/hazards.local.json
+.vault/*.tmp
+
+# Pre-migration private filenames. Public equivalents use neutral names.
+state/career-asset-inventory.md
+state/work-survival-map.md
+
+# Common local clutter.
+.DS_Store
+.idea/
+.vscode/

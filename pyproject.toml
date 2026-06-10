@@ -1,0 +1,20 @@
+[project]
+name = "goal-os-vault"
+version = "0.1.0"
+description = "Privacy tooling for a public goal operating system template."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+vault = "tools.vault:main"
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["tools*"]
+
+[tool.uv]
+package = true

@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "vault_path": "vault/private.bundle.enc",
+  "private_roots": [
+    "context/",
+    "dump/",
+    "lessons/",
+    "observations/",
+    "plans/",
+    "research/",
+    "state/",
+    "strategy/"
+  ],
+  "private_paths": [],
+  "public_roots": [
+    "plans/templates/",
+    "tools/"
+  ],
+  "public_paths": [
+    ".gitignore",
+    ".python-version",
+    ".vault/manifest.json",
+    "AGENTS.md",
+    "README.md",
+    "pyproject.toml",
+    "uv.lock",
+    "vault/.gitkeep",
+    "vault/private.bundle.enc"
+  ],
+  "public_scan_excludes": [
+    ".env",
+    ".git/",
+    ".venv/",
+    ".vault/manifest.json",
+    ".vault/restored.json",
+    ".vault/hazards.local.json",
+    "vault/private.bundle.enc"
+  ],
+  "hazard_terms": [
+    "replace-with-private-name",
+    "replace-with-private-place",
+    "replace-with-private-organization",
+    "replace-with-private-plan"
+  ]
+}
