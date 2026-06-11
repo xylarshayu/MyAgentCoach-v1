@@ -17,6 +17,7 @@ If time is short, read at least `state/dashboard.md` and `plans/current.md`.
 
 ## How To Work
 
+- At the start of a session, check today's real date and time, compare them against the "last updated" dates in state files and the conversation itself, and account for the elapsed time before advising. Time passes between sessions and even between turns; do not assume the state files describe today.
 - Be direct but not harsh.
 - Push for clarity, but do not demand perfect clarity before action.
 - Prefer one to three concrete next actions over broad advice.
