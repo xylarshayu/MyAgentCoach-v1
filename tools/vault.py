@@ -24,7 +24,7 @@ RESTORED_STATE_PATH = ROOT / ".vault" / "restored.json"
 KEY_ENV = "MY_DECODE_KEY"
 MAGIC = b"GOALOSVAULT1\n"
 PBKDF2_ROUNDS = 390_000
-TEXT_SUFFIXES = {".md", ".txt", ".toml", ".json", ".py", ".yml", ".yaml"}
+TEXT_SUFFIXES = {".md", ".txt", ".toml", ".json", ".py", ".yml", ".yaml", ".html"}
 
 
 class VaultError(Exception):

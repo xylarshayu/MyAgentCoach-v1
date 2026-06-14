@@ -11,14 +11,18 @@
     "state/",
     "strategy/"
   ],
-  "private_paths": [],
+  "private_paths": [
+    "strategy/finance-explainer.html"
+  ],
   "public_roots": [
     "plans/templates/",
-    "tools/"
+    "tools/",
+    ".agents/"
   ],
   "public_paths": [
     ".gitignore",
     ".python-version",
+    "skills-lock.json",
     ".vault/manifest.json",
     "AGENTS.md",
     "README.md",
