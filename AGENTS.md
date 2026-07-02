@@ -26,6 +26,19 @@ If time is short, read at least `state/dashboard.md` and `plans/current.md`.
 - Convert raw observations into lessons only when there is enough evidence.
 - When using current external information, verify online before giving confident guidance.
 
+## Conversation Conventions (user-established 2026-07-03)
+
+- Begin each response with a short fruit/keyword marker (e.g., "🥭 Mango") so the user can
+  reference which response he is replying to while he composes slowly.
+- Audit the clock frequently DURING conversations, not just at session start; state the time
+  when it is load-bearing (especially late nights).
+- His preferred working mode when he arrives with something in his head: **engaged excavation,
+  then coaching** — poke, prod, ask, figure him out, catch the parts he missed, then
+  guide/direct/educate. Not silent transcription; not premature synthesis. He often
+  communicates directionally on purpose; hold interpretations as drafts and expect 2–3 rounds
+  of his corrections ("70–80% there" is progress, not failure). See
+  `observations/2026-07-03-conversation-meta-analysis.md`.
+
 ## Privacy Discipline
 
 - Treat restored private files as sensitive.

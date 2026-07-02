@@ -1,0 +1,18 @@
+#!/bin/sh
+# Block commits that would expose private vault content or hazard terms.
+# Installed via: git config core.hooksPath tools/githooks
+cd "$(git rev-parse --show-toplevel)" || exit 1
+
+if ! command -v uv >/dev/null 2>&1; then
+    echo "pre-commit: 'uv' not found; cannot run vault check. Commit blocked (fail-closed)." >&2
+    exit 1
+fi
+
+if ! uv run vault check; then
+    echo "" >&2
+    echo "pre-commit: vault check FAILED - commit blocked." >&2
+    echo "Private paths are staged with non-placeholder content, or a hazard term" >&2
+    echo "appears in public plaintext. Use 'uv run vault sync-push' for normal syncs," >&2
+    echo "or run 'uv run vault encrypt && uv run vault publicize' before committing." >&2
+    exit 1
+fi

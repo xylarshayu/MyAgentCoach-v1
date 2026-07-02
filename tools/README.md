@@ -57,4 +57,14 @@ Public scaffolding belongs in explicit public areas such as `tools/`, `plans/tem
 
 Optional local-only hazard terms can be stored in `.vault/hazards.local.json` using the same `hazard_terms` array shape as the manifest. That file is ignored by git.
 
+## Git hooks (leak guard)
+
+`tools/githooks/` contains `pre-commit` and `pre-push` hooks that run `uv run vault check` and block the operation if it fails (fail-closed, including when `uv` is missing). Activate them once per clone:
+
+```bash
+git config core.hooksPath tools/githooks
+```
+
+Added 2026-07-03 so an accidental plain `git commit`/`git push` cannot publish private content. `vault sync-push` passes the hooks normally because it commits only publicized state.
+
 Keep tools small, boring, and easy to run from a fresh clone.
