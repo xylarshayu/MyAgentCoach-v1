@@ -22,6 +22,7 @@
   "public_paths": [
     ".gitignore",
     ".python-version",
+    "conversation-markers.md",
     "skills-lock.json",
     ".vault/manifest.json",
     "AGENTS.md",
