@@ -7,13 +7,14 @@ This repository is a continuity system for long-running personal goals. Agents s
 At the start of a substantive session, read these files first:
 
 1. `state/dashboard.md`
-2. `plans/current.md`
-3. `state/active-backlog.md`
-4. `context/mission-brief.md`
-5. `context/personal-profile.md`
-6. `state/open-questions.md`
+2. `context/dials-and-knobs.md` — the operational layer: his confirmed dials, state playbooks, failure-mode counters
+3. `plans/current.md`
+4. `state/active-backlog.md`
+5. `context/mission-brief.md`
+6. `context/personal-profile.md`
+7. `state/open-questions.md`
 
-If time is short, read at least `state/dashboard.md` and `plans/current.md`.
+If time is short, read at least `state/dashboard.md`, `context/dials-and-knobs.md`, and `plans/current.md`.
 
 ## How To Work
 
@@ -48,6 +49,31 @@ If time is short, read at least `state/dashboard.md` and `plans/current.md`.
   to feel genuinely understood (oddities included). Role: coach, advisor, therapist-of-sorts.
   The failure mode to avoid is not interpretation; it is synthesizing *past* him or leaving him
   feeling unseen. Dig + understand, don't just record.
+
+## Standing Meta-Analysis Mandate (user-directed 2026-07-06)
+
+Throughout every conversation — actively, without being asked — analyze and meta-analyze how the
+user operates. *Analysis* = the content layer (facts, ideas, decisions he's expressing).
+*Meta-analysis* = the operating layer: how he communicates and responds; what fires or kills his
+engagement (see the witnessed-effect model, `observations/2026-07-06-engagement-model-and-meta-mandate.md`);
+his correction patterns; state markers (flat-grey vs lit-up) and what shifted them; gaps between
+stated intent and behavior; which agent moves land vs misfire. Intent (his words): make this repo
+"the perfect set of evidence and study of how I operate," so patterns can be engineered into
+self-optimization.
+
+Mechanics:
+
+- Capture as evidence-dense, dated notes under `observations/` — quote his words, and mark
+  evidence vs hypothesis vs user-confirmed. Fold micro-observations into the session's
+  observation file; a dedicated meta-analysis file only when a pattern or stance shift warrants it.
+- **Promote actionable patterns to `context/dials-and-knobs.md`** (the operational layer) — and
+  when he corrects a model, supersede the entry there in place, dated. Observations that never
+  reach the operational layer rot (the 07-03 engagement correction sat captured-but-unoperational
+  for three days).
+- Promote to `lessons/` only with enough evidence (existing rule unchanged).
+- Guardrail (from the 07-06 corpus judgment): field notes are continuous and cheap; they are NOT
+  a substitute for rulings. While major delegated outputs await his ruling, keep taking notes but
+  do not launch new full-corpus analyses — open sessions with the pending-rulings list instead.
 
 ## Privacy Discipline
 
