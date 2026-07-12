@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+
+tool=$(basename "$0")
+bin="$HOME/.local/share/fnm/aliases/default/bin/$tool"
+
+if [ ! -x "$bin" ]; then
+  echo "$tool is not installed under the fnm default Node version: $bin" >&2
+  exit 127
+fi
+
+PATH="$HOME/.local/share/fnm/aliases/default/bin:$HOME/.local/bin:$PATH"
+export PATH
+exec "$bin" "$@"

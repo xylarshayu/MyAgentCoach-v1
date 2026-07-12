@@ -1,0 +1,4 @@
+interface:
+  display_name: "Live Research Plane"
+  short_description: "Route research across official docs, Reddit, HN, and X."
+  default_prompt: "Research this topic using the appropriate official and live community sources, clearly separating facts, anecdotes, and inference."

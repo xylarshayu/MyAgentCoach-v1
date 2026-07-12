@@ -1,0 +1,74 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "enabled_providers": ["opencode"],
+  "model": "opencode/mimo-v2.5-free",
+  "small_model": "opencode/deepseek-v4-flash-free",
+  "default_agent": "build",
+  "instructions": ["/home/xylar/.agents/global-guidance.md"],
+  "share": "disabled",
+  "autoupdate": "notify",
+  "compaction": { "auto": true, "prune": true },
+  "permission": {
+    "*": "ask",
+    "read": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "*.env.example": "allow"
+    },
+    "glob": "allow",
+    "grep": "allow",
+    "list": "allow",
+    "lsp": "allow",
+    "skill": "allow",
+    "webfetch": "allow",
+    "websearch": "allow",
+    "external_directory": { "~/.agents/skills/**": "allow" }
+  },
+  "agent": {
+    "build": {
+      "description": "Plan, dispatch bounded implementation work, inspect diffs, and verify results. For direct delegation requests, dispatch the bounded implementation leg to workhorse before running shell commands.",
+      "mode": "primary",
+      "model": "opencode/mimo-v2.5-free",
+      "steps": 20,
+      "tools": {
+        "skill": false
+      },
+      "permission": {
+        "edit": "deny",
+        "bash": {
+          "*": "ask",
+          "git status": "allow",
+          "git status *": "allow",
+          "git diff": "allow",
+          "git diff *": "allow",
+          "git log": "allow",
+          "git log *": "allow",
+          "git show": "allow",
+          "git show *": "allow",
+          "rg *": "allow"
+        },
+        "task": { "*": "deny", "workhorse": "allow" }
+      }
+    },
+    "workhorse": {
+      "description": "Implement one precise task, run focused verification, and report the diff.",
+      "mode": "all",
+      "model": "opencode/deepseek-v4-flash-free",
+      "temperature": 0.1,
+      "steps": 40,
+      "permission": {
+        "edit": "allow",
+        "bash": {
+          "*": "allow",
+          "git push*": "deny",
+          "git * push*": "deny",
+          "git reset --hard*": "deny",
+          "rm -rf *": "deny",
+          "sudo *": "deny"
+        },
+        "task": "deny"
+      }
+    }
+  }
+}

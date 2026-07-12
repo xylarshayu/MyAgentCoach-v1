@@ -1,0 +1,4 @@
+interface:
+  display_name: "Delegate to OpenCode"
+  short_description: "Dispatch bounded work to the economical OpenCode fleet."
+  default_prompt: "Delegate the bounded implementation subtask to the configured OpenCode workhorse, then review its diff and verification."

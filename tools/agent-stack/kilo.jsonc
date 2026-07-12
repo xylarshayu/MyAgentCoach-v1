@@ -1,0 +1,31 @@
+{
+  "$schema": "https://app.kilo.ai/config.json",
+  "model": "kilo/stepfun/step-3.7-flash:free",
+  "small_model": "kilo/cohere/north-mini-code:free",
+  "instructions": ["/home/xylar/.agents/global-guidance.md"],
+  "skills": { "paths": ["~/.agents/skills"] },
+  "sandbox": { "enabled": true, "network": "deny" },
+  "permission": {
+    "*": "ask",
+    "read": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "*.key": "deny",
+      "*.pem": "deny",
+      "*.env.example": "allow"
+    },
+    "glob": "allow",
+    "grep": "allow",
+    "list": "allow",
+    "skill": "allow",
+    "bash": {
+      "*": "ask",
+      "rm *": "deny",
+      "sudo *": "deny",
+      "git push*": "deny",
+      "git reset --hard*": "deny"
+    }
+  },
+  "experimental": { "openTelemetry": false }
+}

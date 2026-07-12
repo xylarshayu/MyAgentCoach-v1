@@ -9,7 +9,8 @@
     "plans/",
     "research/",
     "state/",
-    "strategy/"
+    "strategy/",
+    ".visual-plans/"
   ],
   "private_paths": [
     "strategy/finance-explainer.html"
@@ -17,12 +18,15 @@
   "public_roots": [
     "plans/templates/",
     "tools/",
-    ".agents/"
+    ".agents/",
+    ".codex/"
   ],
   "public_paths": [
     ".gitignore",
     ".python-version",
     "conversation-markers.md",
+    "plans/scan-plans.mjs",
+    "plans/serve.mjs",
     "skills-lock.json",
     ".vault/manifest.json",
     "AGENTS.md",
