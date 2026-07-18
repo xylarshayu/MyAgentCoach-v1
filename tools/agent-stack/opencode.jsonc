@@ -9,13 +9,25 @@
   "autoupdate": "notify",
   "compaction": { "auto": true, "prune": true },
   "permission": {
-    "*": "ask",
+    "*": "allow",
     "read": {
       "*": "allow",
       "*.env": "deny",
       "*.env.*": "deny",
       "*.env.example": "allow"
     },
+    "bash": {
+      "*": "allow",
+      "git push*": "ask",
+      "git * push*": "ask",
+      "git reset --hard*": "ask",
+      "git clean *": "ask",
+      "git checkout -- *": "ask",
+      "git restore *": "ask",
+      "rm -rf *": "ask",
+      "sudo *": "ask"
+    },
+    "doom_loop": "allow",
     "glob": "allow",
     "grep": "allow",
     "list": "allow",
@@ -23,7 +35,7 @@
     "skill": "allow",
     "webfetch": "allow",
     "websearch": "allow",
-    "external_directory": { "~/.agents/skills/**": "allow" }
+    "external_directory": "allow"
   },
   "agent": {
     "build": {
@@ -37,7 +49,15 @@
       "permission": {
         "edit": "deny",
         "bash": {
-          "*": "ask",
+          "*": "allow",
+          "git push*": "ask",
+          "git * push*": "ask",
+          "git reset --hard*": "ask",
+          "git clean *": "ask",
+          "git checkout -- *": "ask",
+          "git restore *": "ask",
+          "rm -rf *": "ask",
+          "sudo *": "ask",
           "git status": "allow",
           "git status *": "allow",
           "git diff": "allow",
@@ -68,6 +88,18 @@
           "sudo *": "deny"
         },
         "task": "deny"
+      }
+    }
+  },
+  "mcp": {
+    "plane": {
+      "type": "remote",
+      "url": "https://mcp.plane.so/http/api-key/mcp",
+      "enabled": true,
+      "oauth": false,
+      "headers": {
+        "Authorization": "Bearer {file:~/.config/opencode/plane-api-token}",
+        "X-Workspace-slug": "{file:~/.config/opencode/plane-workspace-slug}"
       }
     }
   }
