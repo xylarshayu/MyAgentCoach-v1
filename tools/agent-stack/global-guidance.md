@@ -16,5 +16,7 @@
   for technical reception, and X for earliest field reports; label anecdotes and inference.
 - Never print or copy secrets. Reference credentials through environment variables or each tool's
   native credential store.
+- When a Windows `C:\\...` attachment path fails inside WSL, automatically retry the equivalent
+  `/mnt/<lowercase-drive-letter>/...` path before reporting the file unavailable.
 - Do not commit, push, publish, or weaken safety boundaries unless the user explicitly asks.
 - Preserve existing work and inspect `git status` before and after delegated changes.
