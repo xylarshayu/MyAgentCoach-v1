@@ -6,6 +6,10 @@ This directory contains small utilities for managing the repository.
 
 See `tools/codex-desktop-wsl.md` for the workaround used when Codex Desktop on Windows launches WSL agents with `CODEX_HOME` under `/mnt/c`, making the app slow or laggy compared with direct WSL CLI.
 
+## T3 Code desktop with a WSL backend
+
+See `tools/t3code-windows-wsl.md` for the paired-environment setup that keeps the Windows T3 Code desktop experience while running T3's persistent server, projects, and agent CLIs inside WSL2.
+
 ## Vault
 
 Use the vault command through `uv`:
