@@ -84,6 +84,17 @@ Mechanics:
 - If `MY_DECODE_KEY` is unavailable, explain that private context cannot be restored.
 - Never print secrets, plaintext vault contents, or the decode key.
 
+## Career Evidence Continuity
+
+For career evidence capture, master CV preparation or JD tailoring, read
+`context/career-evidence/README.md` on the trusted decoded workspace. Keep the canonical private
+bank current with meaningful sourced contributions as they emerge; preserve contribution,
+outcome, delivery status, metric caveats and human/team/agent attribution. Use stable record IDs
+and distinguish actual evidence from possible wording. Track retrospective coverage and explicit
+gaps; do not require a completed inventory before application work. Keep employer-sensitive
+artifacts as references and sanitized summaries. New evidence-bank files stay under the vault's
+private roots; use the established encrypted sync workflow.
+
 ## Update Discipline
 
 When a session changes the goal system state:
