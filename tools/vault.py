@@ -417,6 +417,8 @@ def command_sync_pull(_: argparse.Namespace) -> int:
         raise VaultError("Refusing to pull with non-private local changes: " + ", ".join(dirty))
 
     run_git_checked(["pull", "--rebase"])
+    # The pull may add private files, so resolve paths from the updated tree.
+    manifest = load_manifest()
     restore_decrypted_vault(manifest, passphrase)
     result = check_manifest(manifest)
     if result != 0:
