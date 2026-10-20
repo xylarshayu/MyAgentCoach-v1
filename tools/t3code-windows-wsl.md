@@ -1,7 +1,7 @@
 # T3 Code: Windows desktop with a WSL2 agent backend
 
-Last verified: 2026-08-02 with T3 Code `0.0.31`, Windows 11, WSL `2.7.11`, and
-Ubuntu 22.04.
+Last verified: 2026-10-20 with T3 Code `0.1.0` on the Windows desktop and WSL
+service, Windows 11, and Ubuntu 22.04 on WSL2.
 
 ## Goal
 
@@ -121,12 +121,15 @@ Inspect the generated unit:
 systemctl --user cat t3code.service
 ```
 
-In `~/.config/systemd/user/t3code.service`, keep the installer-generated absolute Node and T3
-entry paths, but make the `ExecStart` line end with:
+In `~/.config/systemd/user/t3code.service`, point `ExecStart` to the installed
+versioned runtime binary and use the following arguments:
 
 ```text
-serve --host 127.0.0.1 --port 3774
+ExecStart=/home/xylar/.t3/runtime/versions/0.1.0/t3 serve --host 127.0.0.1 --port 3774
 ```
+
+Replace the absolute path with the version installed on this machine. The
+0.1.0 managed launcher otherwise chose an ephemeral port on this host.
 
 Then reload and restart it:
 
@@ -164,7 +167,7 @@ Type=simple
 WorkingDirectory=%h
 Environment=T3CODE_HOME=%h/.t3
 Environment=T3_BOOT_SERVICE_UNIT=t3code.service
-ExecStart=/absolute/path/to/node /absolute/path/to/t3/dist/bin.mjs serve --host 127.0.0.1 --port 3774
+ExecStart=/absolute/path/to/t3 serve --host 127.0.0.1 --port 3774
 Restart=always
 RestartSec=5
 StandardOutput=append:%h/.t3/userdata/logs/boot-service.log
@@ -174,25 +177,17 @@ StandardError=append:%h/.t3/userdata/logs/boot-service.log
 WantedBy=default.target
 ```
 
-Use the real paths from the failed install under `~/.t3/runtime/versions/<version>/`; do not copy a
-username or Node-version path from another computer.
+Use the real binary path from the installed runtime or global package; do not
+copy a username or version path from another computer.
 
 ## 4. Pair WSL with the Windows desktop
 
 Start the desktop normally. It should now open using its Windows-local backend.
 
-With T3 `0.0.31`, mint a one-time pairing URL inside WSL:
+With T3 `0.1.0`, mint a one-time pairing URL inside WSL:
 
 ```sh
-npx t3@latest auth pairing create \
-  --base-url http://127.0.0.1:3774 \
-  --label "Windows desktop"
-```
-
-Newer T3 releases may also provide the shorter command:
-
-```sh
-npx t3@latest pair
+t3 pair --label "Windows desktop"
 ```
 
 Treat the generated URL/token as a credential: do not commit it, paste it into chat, or retain it
@@ -231,19 +226,19 @@ curl -fsS http://127.0.0.1:3774/.well-known/t3/environment
 
 ## Updating
 
-Finish active agent work before updating. The official update command is:
+Finish active agent work first, then back up `~/.t3/userdata` and the Windows
+T3 user data. The current CLI uses `t3 update` and `t3 service install` rather
+than the old `service update` command. On this host, the managed 0.1.0 service
+launcher selected an ephemeral port. Keep the deliberate Windows/WSL split by
+checking the unit after any update and setting `ExecStart` to the installed
+runtime's `t3 serve --host 127.0.0.1 --port 3774`. Reload and restart the user
+unit, then verify Windows port 3773 and WSL port 3774 separately. A custom unit
+can make `t3 service status` say it needs repair despite a healthy service;
+systemd process state and the readiness endpoints are the operational checks.
 
-```sh
-npx t3@latest service update
-```
-
-After an update:
-
-1. inspect `systemctl --user cat t3code.service`;
-2. reapply the loopback port-3774 arguments if the installer replaced them;
-3. update any helper that contains pinned Node or T3 version paths;
-4. restart and rerun both readiness probes;
-5. update the Windows desktop so client and server versions remain compatible.
+The 0.1.0 Windows executable is named `T3 Code (Beta).exe`; update `t3-up` if
+the desktop executable name changes again. Keep desktop and server versions
+matched when connecting remote clients.
 
 ## Data and backup locations
 
