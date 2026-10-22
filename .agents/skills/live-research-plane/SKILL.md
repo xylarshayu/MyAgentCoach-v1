@@ -8,7 +8,11 @@ description: Route time-sensitive or practitioner-signal research across officia
 Use the narrowest source mix that can answer the question.
 
 1. Establish current facts from official primary sources first.
-2. Use Reddit for practitioner consensus and full comment-tree evidence.
+2. Use Reddit for practitioner reports and comment-tree evidence when authenticated access is available.
+   If `reddit-read` is installed, prefer its request-scoped CLI: `reddit-read --tools` lists schemas,
+   then `reddit-read TOOL 'JSON_ARGUMENTS'` starts the server for one request and closes it afterward.
+   Keep automatic Reddit MCP startup disabled on hosts using this route. Keyless RSS browsing does
+   not provide comments, scores or complete search; label that limitation and use available primary sources.
 3. Use Hacker News for technical reception and launch discussion. Query the keyless Algolia API
    described in `~/.claude/research-feeds.md`.
 4. Use X for earliest reports, named-user experience, and fast-moving changes. Read the shared
