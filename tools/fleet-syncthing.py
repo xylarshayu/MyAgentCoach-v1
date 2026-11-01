@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Small, explicit Syncthing bootstrap for the separate work configuration share.
+"""Syncthing bootstrap and status for the unified fleet sync-plane.
 
-Never copies credentials or modifies an existing personal folder. API keys are
+The old separate-work-share pairing command is retired (2026-10-30). API keys are
 read locally in memory, never accepted on argv or printed. Run --help first.
 """
 
@@ -24,7 +24,7 @@ import xml.etree.ElementTree as ET
 HOME = pathlib.Path.home()
 VERSION = "2.1.6"
 DIGEST = "524ef4e1df1850b719e2378c8369956f4e5f2ab9a46fdf7f45f2b925012147aa"
-FOLDER = "xylar-work-config"
+FOLDER = "xylar-sync-plane"
 
 
 def run(*args):
@@ -126,50 +126,17 @@ def install():
 
 
 def pair(args):
-    api = API()
-    own = api.call("system/status")["myID"]
-    peer = args.peer.strip()
-    if peer == own or len(peer) != 63 or any(c not in "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567-" for c in peer):
-        raise RuntimeError("Invalid peer ID")
-    path = pathlib.Path(args.path).expanduser().absolute()
-    if path not in (HOME / "work-sync-plane", HOME / "sync-plane") or path.is_symlink():
-        raise RuntimeError("Expected dedicated native work-share path")
-    folders = api.call("config/folders")
-    existing = next((f for f in folders if f["id"] == FOLDER), None)
-    for folder in folders:
-        other = pathlib.Path(folder["path"]).expanduser().absolute()
-        if folder["id"] != FOLDER and (other == path or other in path.parents or path in other.parents):
-            raise RuntimeError("Refusing overlapping Syncthing folders")
-    if existing and (pathlib.Path(existing["path"]) != path or
-                     set(d["deviceID"] for d in existing["devices"]) != {own, peer}):
-        raise RuntimeError("Existing share differs; refusing replacement")
-    devices = api.call("config/devices")
-    device = next((d for d in devices if d["deviceID"] == peer), None)
-    api.backup()
-    if device is None:
-        device = api.call("config/defaults/device")
-        device.update(deviceID=peer, name=args.name, addresses=["dynamic"],
-                      introducer=False, autoAcceptFolders=False)
-        api.call("config/devices", device, "POST")
-    if existing is None:
-        if path.exists() and any(path.iterdir()):
-            raise RuntimeError("Nonempty unconfigured destination; review before pairing")
-        path.mkdir(parents=True, exist_ok=True, mode=0o700)
-        folder = api.call("config/defaults/folder")
-        folder.update(id=FOLDER, label="Work Configuration", path=str(path),
-                      type="sendreceive", devices=[{"deviceID": own}, {"deviceID": peer}],
-                      versioning={"type": "staggered", "params": {"maxAge": "2592000"},
-                                  "cleanupIntervalS": 3600, "fsPath": "", "fsType": "basic"})
-        api.call("config/folders", folder, "POST")
-    print(json.dumps({"dedicated_share_configured": True, "member_count": 2,
-                      "restart_required": api.call("config/restart-required")["requiresRestart"]}))
+    raise RuntimeError(
+        "Separate work-share pairing is retired. Use the existing unified "
+        "xylar-sync-plane folder at ~/sync-plane; preserve its existing peers."
+    )
 
 
 def status():
     api = API()
     folders = api.call("config/folders")
     folder = next((f for f in folders if f["id"] == FOLDER), None)
-    result = {"version": api.call("system/version")["version"], "work_share_configured": folder is not None}
+    result = {"version": api.call("system/version")["version"], "sync_plane_configured": folder is not None}
     if folder:
         db = api.call("db/status?folder=" + FOLDER)
         result.update({k: db.get(k) for k in ("state", "localFiles", "needFiles", "needBytes", "pullErrors")})
@@ -185,8 +152,8 @@ def main():
     commands = parser.add_subparsers(dest="command", required=True)
     commands.add_parser("install", help="Fresh Linux x86_64 user-local bootstrap only")
     commands.add_parser("identity", help="Print public Syncthing device ID, never API key")
-    commands.add_parser("status", help="Counts and health for the work share only")
-    cmd = commands.add_parser("pair", help="Add only the dedicated two-device work share")
+    commands.add_parser("status", help="Counts and health for the unified sync-plane")
+    cmd = commands.add_parser("pair", help="Retired: use the existing unified sync-plane folder")
     cmd.add_argument("--peer", required=True)
     cmd.add_argument("--name", required=True)
     cmd.add_argument("--path", required=True)

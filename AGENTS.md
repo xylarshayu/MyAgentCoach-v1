@@ -109,7 +109,13 @@ When a session changes the goal system state:
 
 For structural, strategy, state, and personal-context changes, discuss the intended change with the user before writing it.
 
-Small housekeeping edits can stay lightweight. Do not create commits unless the user explicitly requests them.
+Small housekeeping edits can stay lightweight.
+
+## Sync Discipline (user-directed 2026-11-01)
+
+Don't let unsynced work pile up. Start a substantive session with `uv run vault sync-pull`; end any
+session that changed files with `uv run vault check` then `uv run vault sync-push -m "<what changed>"`.
+This standing instruction is the commit authorization; otherwise do not make ad-hoc commits.
 
 ## User Review Marks
 
