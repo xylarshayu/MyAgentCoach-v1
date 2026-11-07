@@ -499,10 +499,10 @@ def private_files_are_placeholders(manifest: Manifest) -> bool:
 
 
 def unsafe_staged_manifest_paths(private_paths: Iterable[Path]) -> list[str]:
-    proc = run_git(["diff", "--cached", "--name-only"])
+    proc = run_git(["diff", "--cached", "--name-only", "-z"])
     if proc.returncode != 0:
         return []
-    staged = set(proc.stdout.decode("utf-8").splitlines())
+    staged = set(split_nul(proc.stdout))
     unsafe: list[str] = []
     for path in private_paths:
         name = path.as_posix()
@@ -560,15 +560,13 @@ def staged_public_files(manifest: Manifest) -> list[Path]:
 
 
 def tracked_public_files(manifest: Manifest) -> list[Path]:
-    proc = run_git(["ls-files", "-v"])
+    proc = run_git(["ls-files", "-v", "-z"])
     if proc.returncode != 0:
         return []
 
     paths: list[Path] = []
     private_names = {path.as_posix() for path in manifest.private_paths}
-    for line in proc.stdout.decode("utf-8").splitlines():
-        if not line:
-            continue
+    for line in split_nul(proc.stdout):
         marker = line[0]
         relative = line[2:]
         if is_excluded(relative, manifest.public_scan_excludes):
@@ -608,33 +606,52 @@ def clear_skip_worktree(paths: Iterable[Path]) -> None:
 
 
 def tracked_names() -> set[str]:
-    proc = run_git(["ls-files"])
+    proc = run_git(["ls-files", "-z"])
     if proc.returncode != 0:
         return set()
-    return set(proc.stdout.decode("utf-8").splitlines())
+    return set(split_nul(proc.stdout))
 
 
 def staged_names() -> list[str]:
-    proc = run_git(["diff", "--cached", "--name-only"])
+    proc = run_git(["diff", "--cached", "--name-only", "-z"])
     if proc.returncode != 0:
         return []
-    return [line for line in proc.stdout.decode("utf-8").splitlines() if line]
+    return split_nul(proc.stdout)
 
 
 def status_paths() -> list[str]:
-    proc = run_git(["status", "--porcelain", "--untracked-files=all"])
+    proc = run_git(["status", "--porcelain", "-z", "--untracked-files=all"])
     if proc.returncode != 0:
         message = proc.stderr.decode("utf-8", errors="replace").strip()
         raise VaultError(f"Could not read Git status: {message}")
+    return parse_porcelain_z(proc.stdout)
 
+
+def split_nul(output: bytes) -> list[str]:
+    """Split NUL-terminated Git output (`-z`) into unquoted paths."""
+    return [field for field in output.decode("utf-8").split("\0") if field]
+
+
+def parse_porcelain_z(output: bytes) -> list[str]:
+    """Return current paths from `git status --porcelain -z` output.
+
+    Without `-z`, Git quotes paths that contain spaces or non-ASCII
+    characters, so they never match the manifest. With `-z` each entry is
+    `XY <path>`, and a rename or copy is followed by its original path as a
+    separate field, which is skipped here.
+    """
     paths: list[str] = []
-    for line in proc.stdout.decode("utf-8").splitlines():
-        if not line:
+    fields = output.decode("utf-8").split("\0")
+    index = 0
+    while index < len(fields):
+        entry = fields[index]
+        index += 1
+        if not entry:
             continue
-        raw_path = line[3:]
-        if " -> " in raw_path:
-            _, raw_path = raw_path.split(" -> ", 1)
-        paths.append(raw_path)
+        status = entry[:2]
+        paths.append(entry[3:])
+        if "R" in status or "C" in status:
+            index += 1
     return paths
 
 
